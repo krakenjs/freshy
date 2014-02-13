@@ -1,13 +1,7 @@
 # freshy
 
-A (admittedly naïve) node module un/reloader.
+An (admittedly naïve) node module (un|re)loader/refreshener.
 
-
-```javascript
-var freshy = require('freshy');
-
-var minimist = freshy.reload('minimist'); // reload
-```
 
 ## API
 ### unload(module)
