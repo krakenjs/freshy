@@ -1,0 +1,25 @@
+{
+  "name": "freshy",
+  "version": "0.0.0",
+  "description": "A node module (un|re)loader.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/totherik/freshy.git"
+  },
+  "author": "Erik Toth <totherik@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "tape": "~2.4.2",
+    "jshint": "~2.4.3",
+    "istanbul": "~0.2.4",
+    "caller": "0.0.1"
+  }
+}
