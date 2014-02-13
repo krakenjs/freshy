@@ -2,6 +2,8 @@
 
 An (admittedly naïve) node module (un|re)loader/refreshener.
 
+[![Build Status](https://travis-ci.org/totherik/freshy.png)](https://travis-ci.org/totherik/freshy)
+
 
 ## API
 ### unload(module)
