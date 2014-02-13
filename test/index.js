@@ -65,6 +65,13 @@ test('freshy', function (t) {
     });
 
 
+    t.test('not yet loaded module', function (t) {
+        // should not throw
+        freshy.freshy('jshint');
+        t.end();
+    });
+
+
     t.test('abs path', function (t) {
         var file, orig, minime;
 

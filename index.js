@@ -4,7 +4,11 @@ var path = require('path'),
     caller = require('caller');
 
 
-
+/**
+ * Gets a reference to a unique instance of a given module.
+ * @param name module name or absolute path
+ * @returns {*} the fresh instance of the module.
+ */
 function getFresh(name) {
     var orig, fresh;
 
@@ -14,33 +18,54 @@ function getFresh(name) {
     fresh = require(name);
     unload(name);
 
-    restore(orig);
+    orig && restore(orig);
     return fresh;
 }
 
 
+/**
+ * Reload a given module.
+ * @param name module name or absolute path
+ * @returns {*} the reloaded module
+ */
 function reload(name) {
     unload(name);
     return require(name);
 }
 
 
+/**
+ * Unload a given module.
+ * @param module module name or absolute path
+ * @returns {boolean} true if the module was removed or false if not
+ */
 function unload(module) {
     var path = require.resolve(module);
 
-    require.cache[path].children.forEach(function (child) {
-        unload(child.id);
-    });
+    if (require.cache.hasOwnProperty(path)) {
+        require.cache[path].children.forEach(function (child) {
+            unload(child.id);
+        });
+    }
 
     return delete require.cache[path];
 }
 
 
+/**
+ * Get a reference to the module's cache entry.
+ * @param module module name or absolute path
+ * @returns {*}
+ */
 function snapshot(module) {
     return require.cache[require.resolve(module)];
 }
 
 
+/**
+ * Add a module entry back into the cache
+ * @param module module cache object
+ */
 function restore(module) {
     require.cache[module.id] = module;
     module.children.forEach(restore);
