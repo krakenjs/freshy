@@ -7,15 +7,21 @@ var path = require('path'),
 /**
  * Gets a reference to a unique instance of a given module.
  * @param name module name or absolute path
+ * @param cb function Optional: will be called while the module in cache is the fresh one, not the original.
  * @returns {*} the fresh instance of the module.
  */
-function getFresh(name) {
+function getFresh(name, cb) {
     var orig, fresh;
 
     orig = snapshot(name);
     unload(name);
 
     fresh = require(name);
+
+    if (cb) {
+        cb(fresh);
+    }
+
     unload(name);
 
     orig && restore(orig);
@@ -82,9 +88,9 @@ function normalize(fn) {
         var basedir;
         if (startsWith(module, './') || startsWith(module, '../')) {
             basedir = path.dirname(caller());
-            module = path.resolve(basedir, module);
+            arguments[0] = module = path.resolve(basedir, module);
         }
-        return fn(module);
+        return fn.apply(this, arguments);
     };
 }
 

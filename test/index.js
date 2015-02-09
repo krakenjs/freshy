@@ -35,6 +35,23 @@ test('freshy', function (t) {
     });
 
 
+    t.test('freshy with callback', function (t) {
+        var orig, minime, betweener;
+
+        orig = require('../package');
+        minime = freshy.freshy('../package', function (minime) {
+            console.log('loaded');
+            betweener = require('../package');
+            t.equal(minime, betweener);
+        });
+        t.notEqual(minime, orig);
+        t.equal(betweener, minime);
+
+        minime = require('../package');
+        t.equal(minime, orig);
+        t.end();
+    });
+
     t.test('unload', function (t) {
         var orig, success, minime;
 
