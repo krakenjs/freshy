@@ -10,7 +10,7 @@ An (admittedly naïve) node module (un|re)loader/refreshener.
 
 * `module` (*String*) - the module to unload
 
-(Attempt to) completely unload a node module from memory. Returns `true` if successful, `false` if not.
+Completely unload a node module from the cache. Returns `true` if the module was present in the cache, `false` if not.
 
 ```javascript
 var minimist = require('minimist'),
@@ -24,7 +24,7 @@ freshy.unload('minimist'); // true
 
 * `module` (*String*) - the module to reload
 
-(Attempt to) completely unload and reload a given module in place. Returns reloaded module.
+Completely unload and reload a given module in place, leaving the new copy in the cache. Returns reloaded module.
 
 ```javascript
 var minimist = require('minimist'),
@@ -39,7 +39,8 @@ console.log(minimist === fresh); // false
 
 * `module` (*String*) - the module for which to fetch a fresh instance
 
-Get a fresh instance of a module with out disturbing the current one in place. Returns fresh module instance.
+Get a fresh instance of a module without disturbing the cached copy. Returns the fresh module instance.
+
 ```javascript
 var minimist = require('minimist'),
     freshy = require('freshy');
