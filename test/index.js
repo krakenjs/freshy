@@ -84,7 +84,7 @@ test('freshy', function (t) {
 
     t.test('not yet loaded module', function (t) {
         // should not throw
-        freshy.freshy('jshint');
+        freshy.freshy('eslint');
         t.end();
     });
 
