@@ -3,6 +3,7 @@
 var path = require('path'),
     caller = require('caller'),
     debug = require('debuglog')('freshy'),
+    isAbsolute = require('path-is-absolute'),
     resolve = require('resolve');
 
 
@@ -82,7 +83,7 @@ function restore(module) {
 function normalize(fn) {
     return function (module) {
         var basedir;
-        if (!path.isAbsolute(module)) {
+        if (!isAbsolute(module)) {
             basedir = path.dirname(caller());
             debug('resolving "%s" from directory "%s"', module, basedir);
             arguments[0] = module = resolve.sync(module, {

@@ -21,6 +21,7 @@
   "dependencies": {
     "caller": "0.0.1",
     "debuglog": "^1.0.1",
+    "path-is-absolute": "^1.0.0",
     "resolve": "^1.1.6"
   },
   "devDependencies": {
