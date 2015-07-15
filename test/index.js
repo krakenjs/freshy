@@ -102,4 +102,9 @@ test('freshy', function (t) {
         t.end();
     });
 
+    t.test('node_modules require from deeply nested module', function (t) {
+        t.equal(require('./mymodule/nested-resolutions.js'), 'hello');
+        t.end();
+    });
+
 });

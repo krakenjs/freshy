@@ -1,7 +1,9 @@
 'use strict';
 
 var path = require('path'),
-    caller = require('caller');
+    caller = require('caller'),
+    debug = require('debuglog')('freshy'),
+    resolve = require('resolve');
 
 
 /**
@@ -77,18 +79,16 @@ function restore(module) {
     module.children.forEach(restore);
 }
 
-
-function startsWith(haystack, needle) {
-    return haystack.indexOf(needle) === 0;
-}
-
-
 function normalize(fn) {
-    return function resolve(module) {
+    return function (module) {
         var basedir;
-        if (startsWith(module, './') || startsWith(module, '../')) {
+        if (!path.isAbsolute(module)) {
             basedir = path.dirname(caller());
-            arguments[0] = module = path.resolve(basedir, module);
+            debug('resolving "%s" from directory "%s"', module, basedir);
+            arguments[0] = module = resolve.sync(module, {
+                basedir: basedir,
+                extensions: Object.keys(require.extensions)
+            });
         }
         return fn.apply(this, arguments);
     };

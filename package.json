@@ -19,7 +19,9 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "caller": "0.0.1"
+    "caller": "0.0.1",
+    "debuglog": "^1.0.1",
+    "resolve": "^1.1.6"
   },
   "devDependencies": {
     "istanbul": "~0.2.4",
