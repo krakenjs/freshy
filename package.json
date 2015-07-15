@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tape test/*.js",
     "cover": "istanbul cover tape -- test/*.js",
-    "lint": "jshint -c .jshintrc index.js"
+    "lint": "jshint -c .jshintrc index.js",
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
@@ -19,11 +19,14 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "caller": "0.0.1"
+    "caller": "0.0.1",
+    "debuglog": "^1.0.1",
+    "path-is-absolute": "^1.0.0",
+    "resolve": "^1.1.6"
   },
   "devDependencies": {
-    "tape": "~2.4.2",
+    "istanbul": "~0.2.4",
     "jshint": "~2.4.3",
-    "istanbul": "~0.2.4"
+    "tape": "~2.4.2"
   }
 }
