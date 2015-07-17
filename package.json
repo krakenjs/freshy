@@ -8,7 +8,7 @@
   },
   "scripts": {
     "cover": "istanbul cover tape -- test/*.js",
-    "lint": "jshint -c .jshintrc index.js",
+    "lint": "eslint index.js test/*.js",
     "test": "tape test/*.js"
   },
   "repository": {
@@ -25,8 +25,8 @@
     "resolve": "^1.1.6"
   },
   "devDependencies": {
+    "eslint": "^0.24.1",
     "istanbul": "~0.2.4",
-    "jshint": "~2.4.3",
     "tape": "~2.4.2"
   }
 }
