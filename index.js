@@ -51,7 +51,7 @@ function reload(name) {
 function unload(module) {
     var path = require.resolve(module);
 
-    if (require.cache.hasOwnProperty(path) && require.cache[path].children) {
+    if (require.cache[path] && require.cache[path].children) {
         require.cache[path].children.forEach(function (child) {
             unload(child.id);
         });
