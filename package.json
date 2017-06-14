@@ -16,6 +16,12 @@
     "url": "git://github.com/totherik/freshy.git"
   },
   "author": "Erik Toth <totherik@gmail.com>",
+  "contributors": [
+    {
+      "name": "Fedor Indutny",
+      "email": "fedor@indutny.com"
+    }
+  ],
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
