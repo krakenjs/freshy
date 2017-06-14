@@ -1,6 +1,6 @@
 {
   "name": "freshy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A node module (un|re)loader.",
   "main": "index.js",
   "directories": {
