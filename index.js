@@ -43,6 +43,7 @@ function reload(name) {
 }
 
 
+var deletedModules = [];
 /**
  * Unload a given module.
  * @param module module name or absolute path
@@ -50,13 +51,17 @@ function reload(name) {
  */
 function unload(module) {
     var path = require.resolve(module);
+    var temp = deletedModules;
 
     if (require.cache[path] && require.cache[path].children) {
         require.cache[path].children.forEach(function (child) {
-            unload(child.id);
+            if(!deletedModules.includes(child.id)) {
+                deletedModules.push(child.id);
+                unload(child.id);
+            }
         });
     }
-
+    deletedModules = temp;
     return delete require.cache[path];
 }
 
