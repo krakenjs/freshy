@@ -82,12 +82,14 @@ function snapshot(module) {
 var restoredModules = [];
 function restore(module) {
     require.cache[module.id] = module;
+    var temp = restoredModules;
     module.children.forEach(function (child) {
       if(!restoredModules.includes(child.id)){
           restoredModules.push(child.id);
           restore(child);
       }
     });
+    restoredModules = temp;
 }
 
 function normalize(fn) {
