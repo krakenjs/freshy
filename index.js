@@ -43,6 +43,7 @@ function reload(name) {
 }
 
 
+var deletedModules = [];
 /**
  * Unload a given module.
  * @param module module name or absolute path
@@ -50,13 +51,16 @@ function reload(name) {
  */
 function unload(module) {
     var path = require.resolve(module);
-
+    var temp = deletedModules.slice();
     if (require.cache[path] && require.cache[path].children) {
         require.cache[path].children.forEach(function (child) {
-            unload(child.id);
+            if(!deletedModules.includes(child.id)) {
+                deletedModules.push(module);
+                unload(child.id);
+            }
         });
     }
-
+    deletedModules = temp;
     return delete require.cache[path];
 }
 
@@ -75,9 +79,17 @@ function snapshot(module) {
  * Add a module entry back into the cache
  * @param module module cache object
  */
+var restoredModules = [];
 function restore(module) {
     require.cache[module.id] = module;
-    module.children.forEach(restore);
+    var temp = restoredModules.slice();
+    module.children.forEach(function (child) {
+      if(!restoredModules.includes(child.id)){
+          restoredModules.push(child.id);
+          restore(child);
+      }
+    });
+    restoredModules = temp;
 }
 
 function normalize(fn) {
