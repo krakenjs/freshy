@@ -6,6 +6,35 @@ var path = require('path'),
     isAbsolute = require('path-is-absolute'),
     resolve = require('resolve');
 
+/**
+ * Array.includes polyfill
+ * @param {string[]} array
+ * @param {string} searchElement
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill
+ */
+function includes(array, searchElement, fromIndex) {
+    var len = array.length >>> 0;
+
+    if (len === 0) {
+        return false;
+    }
+
+    var n = fromIndex | 0;
+    var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+    function sameValueZero(x, y) {
+        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+    }
+
+    while (k < len) {
+        if (sameValueZero(array[k], searchElement)) {
+            return true;
+        }
+        k++;
+    }
+
+    return false;
+}
 
 /**
  * Gets a reference to a unique instance of a given module.
@@ -17,6 +46,7 @@ function getFresh(name, cb) {
     var orig, fresh;
 
     orig = snapshot(name);
+
     unload(name);
 
     fresh = require(name);
@@ -48,12 +78,16 @@ function reload(name) {
  * @param module module name or absolute path
  * @returns {boolean} true if the module was removed or false if not
  */
-function unload(module) {
+function unload(module, stack) {
     var path = require.resolve(module);
+    stack = stack || [];
 
     if (require.cache[path] && require.cache[path].children) {
         require.cache[path].children.forEach(function (child) {
-            unload(child.id);
+            if (!includes(stack, child.id)) {
+                stack.push(path);
+                unload(child.id, stack);
+            }
         });
     }
 
@@ -75,9 +109,15 @@ function snapshot(module) {
  * Add a module entry back into the cache
  * @param module module cache object
  */
-function restore(module) {
+function restore(module, stack) {
+    stack = stack || [];
     require.cache[module.id] = module;
-    module.children.forEach(restore);
+    module.children.forEach(function (child) {
+        if (!includes(stack, child.id)) {
+            stack.push(child.id);
+            restore(child, stack);
+        }
+    });
 }
 
 function normalize(fn) {
