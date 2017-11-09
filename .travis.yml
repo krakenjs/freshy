@@ -4,6 +4,10 @@ node_js:
   - "0.12"
   - "0.10"
   - "iojs"
+  - "node"
+  - "lts/argon"
+  - "lts/boron"
+  - "lts/carbon"
 
 script:
   - "npm run-script cover"
